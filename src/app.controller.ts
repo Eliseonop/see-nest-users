@@ -6,19 +6,22 @@ import { Controller, Get, Sse, Post, Body, Query } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Observable } from "rxjs";
 import { MessageEvent } from "./models/room.model";
+import { AppDosService } from "./appdos.service";
 
 interface CustomEvent extends Omit<MessageEvent, "id"> {}
 
 @Controller("api")
 export class AppController {
-  constructor(private readonly eventosService: AppService) {}
+  constructor(private readonly eventosService: AppDosService) {}
 
   @Get("/eventos")
   @Sse()
   getServerSentEvents(@Query() query: any): Observable<CustomEvent> {
-    const { empresa } = query;
-    const empresaObservable =
-      this.eventosService.getObservableByEmpresa(empresa);
+    const { empresa, user } = query;
+    const empresaObservable = this.eventosService.getObservableByEmpresa(
+      empresa,
+      user
+    );
     console.log("empresaObservable", this.eventosService.empresasObservables);
     return empresaObservable.asObservable();
   }

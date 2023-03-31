@@ -5,6 +5,7 @@ import { UsersModule } from "./users/users.module";
 
 import { EventsModule } from "./events/events.module";
 import { TasksModule } from "./tasks/tasks.module";
+import { AppDosService } from "./appdos.service";
 @Module({
   imports: [
     // ServeStaticModule.forRoot({
@@ -12,6 +13,6 @@ import { TasksModule } from "./tasks/tasks.module";
     // }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppDosService],
 })
 export class AppModule {}

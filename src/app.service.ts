@@ -1,13 +1,10 @@
-import { Room } from "./models/room.model";
-import { BehaviorSubject, Observable, Subject } from "rxjs";
+import { Subject } from "rxjs";
 import { Injectable } from "@nestjs/common";
-import { UserModel } from "./models/user.model";
-import { Task } from "./models/task.model";
 
 @Injectable()
 export class AppService {
   // Crea un objeto para almacenar los observables de cada empresa
-   empresasObservables: { [key: string]: Subject<MessageEvent> } = {};
+  empresasObservables: { [key: string]: Subject<MessageEvent> } = {};
 
   // Devuelve un observable para la empresa dada
   public getObservableByEmpresa(empresa: string): Subject<MessageEvent> {
