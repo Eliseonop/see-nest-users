@@ -5,14 +5,13 @@ import { User, UserModel } from "./models/user.model";
 import { Controller, Get, Sse, Post, Body, Query } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { Observable } from "rxjs";
-import { MessageEvent } from "./models/room.model";
-import { AppDosService } from "./appdos.service";
+import { AppDosService, ModelResDos } from "./appdos.service";
 
-interface CustomEvent extends Omit<MessageEvent, "id"> {}
+interface CustomEvent extends Omit<MessageEvent, "id"> { }
 
 @Controller("api")
 export class AppController {
-  constructor(private readonly eventosService: AppDosService) {}
+  constructor(private readonly eventosService: AppDosService) { }
 
   @Get("/eventos")
   @Sse()
@@ -28,9 +27,20 @@ export class AppController {
 
   @Post("/data")
   enviarEvento(@Body() eventoDto: any): void {
-    const { empresa, data } = eventoDto;
-    // Envía el evento a todos los observadores de la empresa dada
+    const { empresa, user, crudId, item } = eventoDto;
+
+    const evento: any = {
+      data: {
+        user,
+        item,
+        crudId,
+        empresa
+      }
+
+    };
+
+
     console.log("eventoDto", eventoDto);
-    this.eventosService.enviarEvento(empresa, data);
+    this.eventosService.enviarEvento(empresa, evento);
   }
 }

@@ -16,7 +16,7 @@ export class AppDosService {
   public getObservableByEmpresa(
     empresa: string,
     user: string
-  ): Subject<MessageEvent> {
+  ): Subject<MessageEvent<ModelResDos>> {
     // Si ya existe un observable para la empresa, lo devuelve
     if (this.empresasObservables[empresa]) {
       // Si el usuario no está en la lista de usuarios, lo añade
@@ -27,16 +27,23 @@ export class AppDosService {
     }
 
     // Si no, crea un nuevo observable y lo almacena en el objeto de empresasObservables
-    const nuevoObservable = new Subject<MessageEvent>();
+    const nuevoObservable = new Subject<MessageEvent<ModelResDos>>();
     const empresaObservables = { observable: nuevoObservable, user: [user] };
     this.empresasObservables[empresa] = empresaObservables;
     return nuevoObservable;
   }
 
-  public enviarEvento(empresa: string, mensaje: MessageEvent): void {
+  public enviarEvento(empresa: string, mensaje: MessageEvent<ModelResDos>): void {
     // Envía un mensaje a todos los observadores de la empresa
     if (this.empresasObservables[empresa]) {
       this.empresasObservables[empresa].observable.next(mensaje);
     }
   }
+}
+
+export interface ModelResDos {
+  user: string;
+  data: string;
+  crudId: string;
+  empresa: string;
 }
