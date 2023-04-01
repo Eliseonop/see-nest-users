@@ -43,7 +43,7 @@ export class AppDosService {
 
 export interface ModelResDos {
   user: string;
-  data: string;
+  item: string;
   crudId: string;
   empresa: string;
 }

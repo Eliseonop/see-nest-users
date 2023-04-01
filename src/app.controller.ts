@@ -27,15 +27,19 @@ export class AppController {
 
   @Post("/data")
   enviarEvento(@Body() eventoDto: any): void {
-    const { empresa, user, crudId, item } = eventoDto;
+    const { empresa, user, crudId, item, type } = eventoDto;
 
-    const evento: any = {
+    const evento:any = {
       data: {
         user,
         item,
         crudId,
         empresa
-      }
+      },
+      lastEventId: "",
+      type: type
+
+      
 
     };
 
